@@ -1,18 +1,18 @@
 ## ✅ Features
-Fetch dummy questions from api.jsx
-Display one question at a time
-Allow predefined answer time (e.g., 2 min, 3 min)
-Countdown timer for each question
-Record user's video for each question separately
-Upload videos to server with metadata (e.g., question number, text)
-Show progress (answered/skipped questions count)
-Skip question option
+- Fetch dummy questions from api.jsx
+- Display one question at a time
+- Allow predefined answer time (e.g., 2 min, 3 min)
+- Countdown timer for each question
+- Record user's video for each question separately
+- Upload videos to server with metadata (e.g., question number, text)
+- Show progress (answered/skipped questions count)
+- Skip question option
 
 ## 📁 Steps to Implement
-Create API (api.jsx) → Fetch questions
-Design the Video Recording UI
-Implement Timer & Question Flow
-Record & Upload Videos to Server
+- Create API (api.jsx) → Fetch questions
+- Design the Video Recording UI
+- Implement Timer & Question Flow
+- Record & Upload Videos to Server
 
 ### Video Interview Component (VideoInterview.jsx) with these features:
 ✅ Fetches questions from api.jsx
