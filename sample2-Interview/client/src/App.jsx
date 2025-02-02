@@ -1,10 +1,12 @@
-// import VideoRecorder from "./VideoRecorder/VideoRecorder1.jsx";
+import VideoInterview from "./components/VideoInterview";
+import VideoList from "./components/VideoList";
 
 
 function App() {
   return (
     <>
-      
+    <VideoInterview/>
+      <VideoList/>
     </>
   );
 }

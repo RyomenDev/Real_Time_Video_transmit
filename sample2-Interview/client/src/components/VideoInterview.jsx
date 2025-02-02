@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { fetchQuestions } from "./api";
+import { fetchQuestions } from "../api";
 import axios from "axios";
 
 const VideoInterview = () => {
