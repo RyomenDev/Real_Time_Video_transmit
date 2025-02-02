@@ -1,0 +1,68 @@
+body {
+    background-color: #222;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.interview-container {
+    width: 80%;
+    background: #2c2c2c;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.brand {
+    color: #a855f7;
+    font-weight: bold;
+}
+
+.interview-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.video-preview {
+    width: 80%;
+    border-radius: 10px;
+    background: black;
+}
+
+.question-box {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.timer {
+    color: #ff5252;
+    font-weight: bold;
+}
+
+.record-btn {
+    background-color: #ff5252;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.completed-box {
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+}

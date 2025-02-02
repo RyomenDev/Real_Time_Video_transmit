@@ -1,14 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { fetchQuestions } from "../api";
-import { motion } from "framer-motion";
 import axios from "axios";
-import "./styles.css";
 
 const VideoInterview = () => {
   const [questions, setQuestions] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [recording, setRecording] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(120);
+  const [timeLeft, setTimeLeft] = useState(120); // 2-minute timer
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [videoChunks, setVideoChunks] = useState([]);
   const videoRef = useRef(null);
@@ -67,16 +65,14 @@ const VideoInterview = () => {
     const videoBlob = new Blob(videoChunks, { type: "video/webm" });
     const file = new File(
       [videoBlob],
-      `answer_${questions[currentIndex].id}.webm`,
-      {
-        type: "video/webm",
-      }
+      `answer_${questions[currentQuestionIndex].id}.webm`,
+      { type: "video/webm" }
     );
 
     const formData = new FormData();
     formData.append("video", file);
-    formData.append("questionId", questions[currentIndex].id);
-    formData.append("questionText", questions[currentIndex].text);
+    formData.append("questionId", questions[currentQuestionIndex].id);
+    formData.append("questionText", questions[currentQuestionIndex].text);
 
     try {
       await axios.post("http://localhost:5000/upload", formData, {
@@ -87,36 +83,24 @@ const VideoInterview = () => {
       console.error("Upload Failed:", error);
     }
 
-    setCurrentIndex((prev) => prev + 1);
+    setCurrentQuestionIndex((prev) => prev + 1);
     setTimeLeft(120);
   };
 
   return (
-    <div className="fullscreen">
-      <video ref={videoRef} autoPlay playsInline className="video-background" />
-      <motion.div
-        className="overlay"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        {questions.length > 0 && currentIndex < questions.length ? (
-          <div className="question-container">
-            <h3 className="question-text">{questions[currentIndex].text}</h3>
-            <p className="timer">⏳ {timeLeft}s</p>
-            <button
-              onClick={recording ? stopRecording : startRecording}
-              className="record-btn"
-            >
-              {recording ? "Stop & Submit" : "Start Answering"}
-            </button>
-          </div>
-        ) : (
-          <div className="completed-box">
-            <h2>✅ Interview Completed!</h2>
-          </div>
-        )}
-      </motion.div>
+    <div className="container">
+      {questions.length > 0 && currentQuestionIndex < questions.length ? (
+        <>
+          <h2>{questions[currentQuestionIndex].text}</h2>
+          <p>Time Left: {timeLeft}s</p>
+          <video ref={videoRef} autoPlay playsInline />
+          <button onClick={recording ? stopRecording : startRecording}>
+            {recording ? "Stop & Submit" : "Start Answering"}
+          </button>
+        </>
+      ) : (
+        <h2>Interview Completed!</h2>
+      )}
     </div>
   );
 };

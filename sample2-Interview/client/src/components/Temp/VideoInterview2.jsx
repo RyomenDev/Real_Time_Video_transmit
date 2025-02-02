@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { fetchQuestions } from "../api";
-import { motion } from "framer-motion";
 import axios from "axios";
 import "./styles.css";
 
@@ -92,18 +91,23 @@ const VideoInterview = () => {
   };
 
   return (
-    <div className="fullscreen">
-      <video ref={videoRef} autoPlay playsInline className="video-background" />
-      <motion.div
-        className="overlay"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        {questions.length > 0 && currentIndex < questions.length ? (
-          <div className="question-container">
-            <h3 className="question-text">{questions[currentIndex].text}</h3>
-            <p className="timer">⏳ {timeLeft}s</p>
+    <div className="interview-container">
+      <div className="header">
+        <h2>Mock Interview</h2>
+        <span className="brand">Thynkr</span>
+      </div>
+
+      {questions.length > 0 && currentIndex < questions.length ? (
+        <div className="interview-box">
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            className="video-preview"
+          />
+          <div className="question-box">
+            <h3>{questions[currentIndex].text}</h3>
+            <p className="timer">Time Left: {timeLeft}s</p>
             <button
               onClick={recording ? stopRecording : startRecording}
               className="record-btn"
@@ -111,12 +115,12 @@ const VideoInterview = () => {
               {recording ? "Stop & Submit" : "Start Answering"}
             </button>
           </div>
-        ) : (
-          <div className="completed-box">
-            <h2>✅ Interview Completed!</h2>
-          </div>
-        )}
-      </motion.div>
+        </div>
+      ) : (
+        <div className="completed-box">
+          <h2>Interview Completed!</h2>
+        </div>
+      )}
     </div>
   );
 };
