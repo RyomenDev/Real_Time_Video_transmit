@@ -1,4 +1,4 @@
-import VideoRecorder from "./VideoRecorder.jsx";
+import VideoRecorder from "./VideoRecorder/VideoRecorder1.jsx";
 
 function App() {
  
