@@ -10,10 +10,7 @@ const VideoInterview = () => {
   const [timeLeft, setTimeLeft] = useState(120);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [videoChunks, setVideoChunks] = useState([]);
-  const [micOn, setMicOn] = useState(true);
-  const [cameraOn, setCameraOn] = useState(true);
   const videoRef = useRef(null);
-  let streamRef = useRef(null);
 
   useEffect(() => {
     const loadQuestions = async () => {
@@ -35,10 +32,9 @@ const VideoInterview = () => {
     const getPermissions = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: cameraOn,
-          audio: micOn,
+          video: true,
+          audio: true,
         });
-        streamRef.current = stream;
         videoRef.current.srcObject = stream;
         const recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
         setMediaRecorder(recorder);
@@ -47,15 +43,7 @@ const VideoInterview = () => {
       }
     };
     getPermissions();
-  }, [micOn, cameraOn]);
-
-  const toggleMic = () => {
-    setMicOn((prev) => !prev);
-  };
-
-  const toggleCamera = () => {
-    setCameraOn((prev) => !prev);
-  };
+  }, []);
 
   const startRecording = () => {
     if (!mediaRecorder) return;
@@ -103,7 +91,7 @@ const VideoInterview = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex items-center justify-center bg-gray-900 text-white border-4 border-red-500">
+    <div className="h-screen w-screen flex items-center justify-center bg-gray-900 text-white border-4  border-red-500">
       <video
         ref={videoRef}
         autoPlay
@@ -119,32 +107,10 @@ const VideoInterview = () => {
             <p className="text-gray-600 mb-4">⏳ {timeLeft}s</p>
             <button
               onClick={recording ? stopRecording : startRecording}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition mb-2"
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition"
             >
               {recording ? "Stop & Submit" : "Start Answering"}
             </button>
-            <div className="flex gap-4">
-              <button
-                onClick={toggleMic}
-                className={`px-4 py-2 rounded-lg shadow-md transition ${
-                  micOn
-                    ? "bg-red-600 hover:bg-red-700"
-                    : "bg-gray-600 hover:bg-gray-700"
-                } text-white`}
-              >
-                {micOn ? "Turn Mic Off" : "Turn Mic On"}
-              </button>
-              <button
-                onClick={toggleCamera}
-                className={`px-4 py-2 rounded-lg shadow-md transition ${
-                  cameraOn
-                    ? "bg-red-600 hover:bg-red-700"
-                    : "bg-gray-600 hover:bg-gray-700"
-                } text-white`}
-              >
-                {cameraOn ? "Turn Camera Off" : "Turn Camera On"}
-              </button>
-            </div>
           </div>
         ) : (
           <div className="text-center">
