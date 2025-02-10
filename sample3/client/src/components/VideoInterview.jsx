@@ -9,12 +9,18 @@ import Controls from "./Controls";
 const VideoInterview = () => {
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [skippedCount, setSkippedCount] = useState(0);
   const [timeLeft, setTimeLeft] = useState(120);
   const videoRef = useRef(null);
 
   const { stream, cameraOn, micOn, toggleCamera, toggleMic } = usePermissions();
   const { recording, startRecording, stopRecording, videoChunks } =
     useMediaRecorder(stream);
+
+  const skipQuestion = () => {
+    setCurrentIndex((prev) => prev + 1);
+    setSkippedCount((prev) => prev + 1);
+  };
 
   useEffect(() => {
     const loadQuestions = async () => {
@@ -73,9 +79,21 @@ const VideoInterview = () => {
       <motion.div className="relative z-10 p-6 rounded-2xl shadow-lg mx-10 w-full text-gray-900">
         {questions.length > 0 && currentIndex < questions.length ? (
           <div className="flex flex-col items-center text-center">
-            <h3 className="text-xl font-semibold mb-4 flex items-start w-full rounded-xl p-2 bg-white">
-              {questions[currentIndex].text}
-            </h3>
+            <div className="flex items-center w-full rounded-xl p-2 bg-white">
+              <h3 className="text-xl font-semibold mb-4 flex items-start w-full rounded-xl p-2 bg-white">
+                {questions[currentIndex].text}
+              </h3>
+              <p className="text-gray-600 mb-2">
+                Question {currentIndex + 1} / {questions.length} | Skipped:{" "}
+                {skippedCount}
+              </p>
+              <button
+                onClick={skipQuestion}
+                className="mt-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+              >
+                Skip Question
+              </button>
+            </div>
             <p className="text-gray-600 mb-4">⏳ {timeLeft}s</p>
             <div className="">
               <Controls
