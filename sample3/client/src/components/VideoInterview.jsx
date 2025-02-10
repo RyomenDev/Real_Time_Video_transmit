@@ -2,8 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { fetchQuestions } from "../api";
-import useMediaRecorder from "../hooks/useMediaRecorder";
-import usePermissions from "../hooks/usePermissions";
+import useMediaRecorder from "./CustomHooks/useMediaRecorder";
+import usePermissions from "./CustomHooks/usePermissions";
 import Controls from "./Controls";
 
 const VideoInterview = () => {
@@ -63,29 +63,31 @@ const VideoInterview = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex items-center justify-center bg-gray-900 text-white">
+    <div className="h-screen w-full flex items-end justify-center bg-gray-900 text-white">
       <video
         ref={videoRef}
         autoPlay
         playsInline
         className="absolute inset-0 w-full h-full object-cover opacity-50"
       />
-      <motion.div className="relative z-10 bg-white p-6 rounded-2xl shadow-lg max-w-xl w-full text-gray-900">
+      <motion.div className="relative z-10 p-6 rounded-2xl shadow-lg mx-10 w-full text-gray-900">
         {questions.length > 0 && currentIndex < questions.length ? (
           <div className="flex flex-col items-center text-center">
-            <h3 className="text-xl font-semibold mb-4">
+            <h3 className="text-xl font-semibold mb-4 flex items-start w-full rounded-xl p-2 bg-white">
               {questions[currentIndex].text}
             </h3>
             <p className="text-gray-600 mb-4">⏳ {timeLeft}s</p>
-            <Controls
-              recording={recording}
-              startRecording={startRecording}
-              stopRecording={stopRecording}
-              micOn={micOn}
-              cameraOn={cameraOn}
-              toggleMic={toggleMic}
-              toggleCamera={toggleCamera}
-            />
+            <div className="">
+              <Controls
+                recording={recording}
+                startRecording={startRecording}
+                stopRecording={stopRecording}
+                micOn={micOn}
+                cameraOn={cameraOn}
+                toggleMic={toggleMic}
+                toggleCamera={toggleCamera}
+              />
+            </div>
           </div>
         ) : (
           <div className="text-center">
