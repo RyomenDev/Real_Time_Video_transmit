@@ -23,17 +23,29 @@ const Permissions = ({ onPermissionsGranted }) => {
       <div className="flex space-x-4">
         <button
           onClick={() => setMicEnabled((prev) => !prev)}
-          className={`px-4 py-2 rounded-lg ${micEnabled ? "bg-green-500" : "bg-gray-400"} text-white`}
+          className={`px-4 py-2 rounded-lg ${
+            micEnabled ? "bg-green-500" : "bg-gray-400"
+          } text-white`}
         >
           {micEnabled ? "Mic Enabled" : "Enable Mic"}
         </button>
         <button
           onClick={() => setCameraEnabled((prev) => !prev)}
-          className={`px-4 py-2 rounded-lg ${cameraEnabled ? "bg-green-500" : "bg-gray-400"} text-white`}
+          className={`px-4 py-2 rounded-lg ${
+            cameraEnabled ? "bg-green-500" : "bg-gray-400"
+          } text-white`}
         >
           {cameraEnabled ? "Camera Enabled" : "Enable Camera"}
         </button>
       </div>
       <button
         onClick={requestPermissions}
-        className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg
+        className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition"
+      >
+        Grant Access
+      </button>
+    </div>
+  );
+};
+
+export default Permissions;
