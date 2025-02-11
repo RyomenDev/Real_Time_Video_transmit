@@ -1,4 +1,4 @@
-import VideoInterview from "./components/VideoInterview";
+import VideoInterview from "./components/VideoInterviewWebM";
 
 const App = () => {
   return <VideoInterview />;
