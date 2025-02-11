@@ -14,12 +14,15 @@ const VideoInterview = () => {
   const videoRef = useRef(null);
 
   const { stream, cameraOn, micOn, toggleCamera, toggleMic } = usePermissions();
-  const { recording, startRecording, stopRecording, videoChunks } =
-    useMediaRecorder(stream);
+  const { recording, startRecording, stopRecording } = useMediaRecorder(
+    stream,
+    saveAndUpload
+  );
 
   const skipQuestion = () => {
     setCurrentIndex((prev) => prev + 1);
     setSkippedCount((prev) => prev + 1);
+    setTimeLeft(120);
   };
 
   useEffect(() => {
@@ -42,11 +45,18 @@ const VideoInterview = () => {
     if (stream) videoRef.current.srcObject = stream;
   }, [stream]);
 
-  const saveAndUpload = async () => {
+  async function saveAndUpload(videoChunks) {
+    console.log("Saving and uploading");
+
+    if (!Array.isArray(videoChunks) || videoChunks.length === 0) {
+      console.error("Invalid videoChunks:", videoChunks);
+      return;
+    }
+
     const videoBlob = new Blob(videoChunks, { type: "video/webm" });
     const file = new File(
       [videoBlob],
-      `answer_${questions[currentIndex]?.id}.webm`,
+      `answer_${questions[currentIndex]?.id || currentIndex}.webm`,
       { type: "video/webm" }
     );
 
@@ -66,7 +76,7 @@ const VideoInterview = () => {
 
     setCurrentIndex((prev) => prev + 1);
     setTimeLeft(120);
-  };
+  }
 
   return (
     <div className="h-screen w-full flex items-end justify-center bg-gray-900 text-white">
@@ -86,7 +96,7 @@ const VideoInterview = () => {
               <div className="flex flex-col items-end w-full">
                 <div className="text-gray-600 mb-2">
                   Question {currentIndex + 1} / {questions.length} | Skipped:{" "}
-                  {skippedCount} |
+                  {skippedCount}
                   <button
                     onClick={skipQuestion}
                     className="mt-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
@@ -97,7 +107,7 @@ const VideoInterview = () => {
               </div>
             </div>
             <p className="text-gray-600 mb-4">⏳ {timeLeft}s</p>
-            <div className="">
+            <div>
               <Controls
                 recording={recording}
                 startRecording={startRecording}

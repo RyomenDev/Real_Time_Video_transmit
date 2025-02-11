@@ -54,9 +54,11 @@ const VideoInterview = () => {
     formData.append("video", file);
     formData.append("questionId", questions[currentIndex]?.id);
     formData.append("questionText", questions[currentIndex]?.text);
+    console.log("sending");
 
     try {
-      await axios.post("http://localhost:5000/upload", formData, {
+      //   await axios.post("http://localhost:5000/upload", formData, {
+      await axios.post("http://127.0.0.1:8000/api/upload/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("Upload Successful");
