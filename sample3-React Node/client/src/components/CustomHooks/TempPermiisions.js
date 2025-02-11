@@ -4,43 +4,26 @@ const usePermissions = () => {
   const [micOn, setMicOn] = useState(true);
   const [cameraOn, setCameraOn] = useState(true);
   const [stream, setStream] = useState(null);
-  const streamRef = useRef(null);
+  let streamRef = useRef(null);
 
   useEffect(() => {
     const getPermissions = async () => {
       try {
         const newStream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-          audio: true,
+          video: cameraOn,
+          audio: micOn,
         });
-
         streamRef.current = newStream;
         setStream(newStream);
       } catch (error) {
         console.error("Permission Denied:", error);
       }
     };
-
     getPermissions();
-  }, []);
+  }, [micOn, cameraOn]);
 
-  const toggleMic = () => {
-    if (streamRef.current) {
-      streamRef.current.getAudioTracks().forEach((track) => {
-        track.enabled = !micOn;
-      });
-    }
-    setMicOn((prev) => !prev);
-  };
-
-  const toggleCamera = () => {
-    if (streamRef.current) {
-      streamRef.current.getVideoTracks().forEach((track) => {
-        track.enabled = !cameraOn;
-      });
-    }
-    setCameraOn((prev) => !prev);
-  };
+  const toggleMic = () => setMicOn((prev) => !prev);
+  const toggleCamera = () => setCameraOn((prev) => !prev);
 
   return { stream, micOn, cameraOn, toggleMic, toggleCamera };
 };
