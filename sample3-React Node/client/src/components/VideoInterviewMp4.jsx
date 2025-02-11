@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { fetchQuestions } from "../api";
-import useMediaRecorder from "./CustomHooks/useMediaRecorderWebm";
+import useMediaRecorder from "./CustomHooks/useMediaRecorderMp4";
 import usePermissions from "./CustomHooks/usePermissions";
 import Controls from "./Controls";
 
